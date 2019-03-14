@@ -32,6 +32,13 @@ public final class WaterfallCompletionControl extends Plugin {
   @Override
   public void onEnable() {
     // Plugin startup logic
+    try {
+      Class.forName("io.github.waterfallmc.waterfall.event.ProxyDefineCommandsEvent");
+    } catch (ClassNotFoundException e) {
+      getLogger().warning(
+          "Missing required events, please make sure to use Waterfall(b262+) or Travertine(b89+) or a compatible fork");
+      return;
+    }
 
     this.configFile = new File(getDataFolder(), "config.yml");
 
@@ -53,7 +60,6 @@ public final class WaterfallCompletionControl extends Plugin {
 
   public synchronized void loadConfig() throws IOException {
 
-
     if (!configFile.exists()) {
       configFile.getParentFile().mkdirs();
 
@@ -63,7 +69,6 @@ public final class WaterfallCompletionControl extends Plugin {
         Files.copy(resourceConfigStream, configFile.toPath());
       }
     }
-
 
     this.config = this.provider.load(configFile, null);
 
@@ -109,12 +114,12 @@ public final class WaterfallCompletionControl extends Plugin {
 
       if (player.hasPermission("completions.group." + groupName)) {
         if (isDebug()) {
-          debug("Processing group '" + groupName + "'{"+  groupData + "} for " + player.getName());
+          debug("Processing group '" + groupName + "'{" + groupData + "} for " + player.getName());
         }
 
         debug(groupData.toString());
         // If we are allowed, and the group is not a whitelist, kill
-        if (!groupData.isWhitelist() && isAllowed &&  groupData.has(label)) {
+        if (!groupData.isWhitelist() && isAllowed && groupData.has(label)) {
           isAllowed = false;
           debug(player.getName() + " was denied '" + label + "' by group " + groupName);
         } else if (!isAllowed && groupData.isWhitelist() && groupData.has(label)) {
