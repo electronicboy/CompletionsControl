@@ -1,0 +1,4 @@
+name: CompletionControl
+version: @version@
+main: pw.valaria.completioncontrol.WaterfallCompletionControl
+author: electronicboy

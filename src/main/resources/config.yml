@@ -1,0 +1,15 @@
+# Working is, default is applied, any overriding groups will override
+# e.g. default blacklists glist, but staff can then allow glist by
+# acting as a whitelist
+#
+#
+defaults:
+  blacklist: true
+  completions:
+    - glist
+
+groups:
+  staff:
+    blacklist: false
+    completions:
+      - glist
